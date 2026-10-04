@@ -1,0 +1,51 @@
+@page
+@model GestionProduits.Pages.Produits.IndexModel
+
+@{
+    ViewData["Title"] = "Produits";
+}
+
+<div class="d-flex flex-wrap gap-3 justify-content-between align-items-center mb-4">
+    <div>
+        <div class="text-primary fw-semibold small text-uppercase">Catalogue</div>
+        <h1 class="fw-bold mb-0">Liste des produits</h1>
+    </div>
+    <a asp-page="Create" class="btn btn-primary">Nouveau produit</a>
+</div>
+
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-6 col-lg-5">
+        <input asp-for="Recherche" class="form-control" placeholder="Rechercher par nom" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-primary">Rechercher</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Réinitialiser</a>
+    </div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-striped mb-0">
+    <thead>
+        <tr><th>Nom</th><th>Prix</th><th>Stock</th><th>Catégorie</th><th></th></tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model.Produits)
+    {
+        <tr>
+            <td>@p.Nom</td>
+            <td>@p.Prix.ToString("N2") DT</td>
+            <td>@p.Stock</td>
+            <td>@p.Categorie?.Nom</td>
+            <td>
+                <a asp-page="Edit" asp-route-id="@p.Id">Modifier</a> |
+                <a asp-page="Delete" asp-route-id="@p.Id">Supprimer</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+</div>
+
+<div class="alert alert-primary mt-4 border-0 shadow-sm">
+    Total du stock : <strong>@Model.TotalStock</strong> — Prix moyen : <strong>@Model.PrixMoyen.ToString("N2") DT</strong>
+</div>
